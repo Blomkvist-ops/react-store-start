@@ -1,14 +1,16 @@
-import React from "react";
-import ReactDom from "react-dom";
-import Router from "Router";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Router from 'Router';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import "./css/app.scss";
-import "./css/style.scss";
+import 'css/app.scss';
+import 'css/style.scss';
 
-ReactDom.render(
-    <div>
-            <ToastContainer
+import 'commons/auth';
+
+ReactDOM.render(
+  <div>
+    <ToastContainer
       position="top-right"
       autoClose={5000}
       hideProgressBar
@@ -19,5 +21,7 @@ ReactDom.render(
       draggable
       pauseOnHover
     />
-        <Router />
-    </div>, document.getElementById("root"));
+    <Router />
+  </div>,
+  document.getElementById('root')
+);

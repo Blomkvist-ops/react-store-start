@@ -2,7 +2,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import axios from 'commons/axios';
 
-class AddInventory extends React.Component {
+class EditInventory extends React.Component {
   state = {
     name: '',
     price: '',
@@ -10,6 +10,18 @@ class AddInventory extends React.Component {
     image: '',
     status: 'available'
   };
+
+  componentDidMount() {
+    const { id, name, image, tags, price, status } = this.props.product;
+    this.setState({
+      id,
+      name,
+      image,
+      tags,
+      price,
+      status
+    });
+  }
 
   handleChange = e => {
     const value = e.target.value;
@@ -22,10 +34,10 @@ class AddInventory extends React.Component {
   submit = e => {
     e.preventDefault();
     const product = { ...this.state };
-    axios.post('products', product).then(res => {
+    axios.put(`products/${this.state.id}`, product).then(res => {
       this.props.close(res.data);
       //toast.success('Add success');
-      toast('🦄 Wow add success!', {
+      toast('🦄 Wow Edit success!', {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -37,13 +49,21 @@ class AddInventory extends React.Component {
     });
   };
 
-//   showToast = () => {
-//     toast('default');
-//     toast.info('info');
-//     toast.success('success');
-//     toast.warning('warning');
-//     toast.error('error');
-//   };
+  onDelete = () => {
+    axios.delete(`products/${this.state.id}`).then(res => {
+      this.props.deleteProduct(this.state.id);
+      this.props.close();
+      toast('🦄 Wow Delete success!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+    });
+  };
 
   render() {
     return (
@@ -116,6 +136,11 @@ class AddInventory extends React.Component {
           <div className="field is-grouped is-grouped-centered">
             <div className="control">
               <button className="button is-link">Submit</button>
+            
+            </div>
+            <div className="control">
+              
+              <button className="button is-danger" type="button" onClick={this.onDelete}>Delete</button>
             </div>
             <div className="control">
               <button
@@ -135,4 +160,4 @@ class AddInventory extends React.Component {
   }
 }
 
-export default AddInventory;
+export default EditInventory;
