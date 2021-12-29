@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 export default function Login(props) {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = async data => {
+  const onSubmit = async ( data ) => {
     // 3. 处理登录逻辑
     try {
       const { email, password } = data;
@@ -34,13 +34,17 @@ export default function Login(props) {
               type="text"
               placeholder="Email"
               name="email"
-              ref={register({
-                required: 'email is required',
-                pattern: {
-                  value: /^[A-Za-z0-9]+([_\\.][A-Za-z0-9]+)*@([A-Za-z0-9\\-]+\.)+[A-Za-z]{2,6}$/,
-                  message: 'invalid email'
-                }
-              })}
+              // ref={register({
+              //   required: 'email is required',
+              //   pattern: {
+              //     value: /^[A-Za-z0-9]+([_\\.][A-Za-z0-9]+)*@([A-Za-z0-9\\-]+\.)+[A-Za-z]{2,6}$/,
+              //     message: 'invalid email'
+              //   }
+              // })}
+              {...register('email', { required: true, pattern: {
+                value: /^[A-Za-z0-9]+([_\\.][A-Za-z0-9]+)*@([A-Za-z0-9\\-]+\.)+[A-Za-z]{2,6}$/,
+                message: 'invalid email'
+              } })}
             />
             {errors.email && (
               <p className="helper has-text-danger">{errors.email.message}</p>
@@ -55,13 +59,17 @@ export default function Login(props) {
               type="password"
               placeholder="Password"
               name="password"
-              ref={register({
-                required: 'password is required',
-                minLength: {
-                  value: 6,
-                  message: 'cannot be less than 6 digits'
-                }
-              })}
+              // ref={register({
+              //   required: 'password is required',
+              //   minLength: {
+              //     value: 6,
+              //     message: 'cannot be less than 6 digits'
+              //   }
+              // })}
+              {...register('password', { required: true, minLength: {
+                value: 6,
+                message: 'cannot be less than 6 digits'
+              } })}
             />
             {errors.password && (
               <p className="helper has-text-danger">
